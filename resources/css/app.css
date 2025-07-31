@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.spinner-border {
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    border: 0.25em solid transparent;
+    border-radius: 50%;
+    border-top-color: #38b2ac; /* Teal color */
+    animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
