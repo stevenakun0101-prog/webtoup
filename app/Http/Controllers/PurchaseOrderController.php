@@ -169,7 +169,7 @@ class PurchaseOrderController extends Controller
             }
 
             // Send message to WhatsApp group (admin)
-            $response = Http::post('http://localhost:3000/send-message', [
+            $response = Http::post('https://wa-web-service.up.railway.app/send-message', [
                 'groupTitle' => 'WEB CUNGS',
                 'message' => $message,
             ]);
@@ -187,7 +187,7 @@ class PurchaseOrderController extends Controller
                 "────────────────\n" .
                 "Cek status pesanan: https://" . request()->getHttpHost() . "/orders/track\n" .
                 "Gunakan kode invoice & WhatsApp ini untuk cek status.";
-            Http::post('http://localhost:3000/send-message', [
+            Http::post('https://wa-web-service.up.railway.app/send-message', [
                 'number' => $order->whatsapp,
                 'message' => $buyerMessage,
             ]);

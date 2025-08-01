@@ -10,7 +10,7 @@ const SendMessage = () => {
 
     const handleSendMessage = (e) => {
         e.preventDefault();
-        post("http://localhost:3000/send-message", {
+        post("https://wa-web-service.up.railway.app/send-message", {
             onSuccess: (page) => {
                 alert(page.props.flash.message || "Message sent successfully!");
                 setData({ groupTitle: "", message: "" }); // Clear the form
