@@ -3,16 +3,15 @@
         "builder": "NIXPACKS",
         "nixpacksPlan": {
             "phases": {
+                "setup": {
+                    "cmds": []
+                },
                 "install": {
                     "dependsOn": ["setup"],
                     "cmds": [
                         "composer install --no-interaction --prefer-dist --optimize-autoloader",
-                        "npm install"
+                        "npm install && npm run build"
                     ]
-                },
-                "build": {
-                    "dependsOn": ["install"],
-                    "cmds": ["npm run build"]
                 }
             },
             "start": {
