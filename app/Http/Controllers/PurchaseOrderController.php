@@ -216,6 +216,7 @@ class PurchaseOrderController extends Controller
             return response()->json([
                 'status' => 500,
                 'message' => 'There was an issue processing your order. Please try again.',
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
