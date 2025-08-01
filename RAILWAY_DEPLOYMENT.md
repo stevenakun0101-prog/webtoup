@@ -1,36 +1,32 @@
 # 🚀 Railway Deployment Guide
 
-## Setup Database di Railway
+## 📋 Prerequisites
+- GitHub repository connected to Railway
+- Railway MySQL database service
+- Railway web service
 
-### 1. Buat MySQL Database di Railway
+## 🔧 Setup Steps
 
-1. Buka dashboard Railway
-2. Klik "New Project" → "Deploy from GitHub repo"
-3. Pilih repository Anda
-4. Setelah project dibuat, klik "New" → "Database" → "Add MySQL"
-5. Catat environment variables yang diberikan Railway
+### 1. **Set Environment Variables di Railway Dashboard**
 
-### 2. Environment Variables yang Diperlukan
-
-Di Railway dashboard, set environment variables berikut:
+Buka Railway dashboard → Project → Variables tab, tambahkan:
 
 ```env
-APP_NAME="Web Topup"
+APP_NAME=Web Topup
 APP_ENV=production
-APP_KEY=base64:your-app-key-here
-APP_DEBUG=false
-APP_URL=https://your-app-name.railway.app
+APP_DEBUG=true
+APP_URL=https://webtoup-production.up.railway.app
+
+DB_CONNECTION=mysql
+DB_HOST=mysql.railway.internal
+DB_PORT=3306
+DB_DATABASE=railway
+DB_USERNAME=root
+DB_PASSWORD=uJCrLXYYXRzMsgwKTemgpSqZrFpGNgrU
 
 LOG_CHANNEL=stack
 LOG_DEPRECATIONS_CHANNEL=null
 LOG_LEVEL=debug
-
-DB_CONNECTION=mysql
-DB_HOST=your-mysql-host.railway.app
-DB_PORT=3306
-DB_DATABASE=railway
-DB_USERNAME=root
-DB_PASSWORD=your-mysql-password
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
@@ -38,108 +34,76 @@ FILESYSTEM_DISK=local
 QUEUE_CONNECTION=sync
 SESSION_DRIVER=file
 SESSION_LIFETIME=120
-
-MEMCACHED_HOST=127.0.0.1
-
-REDIS_HOST=127.0.0.1
-REDIS_PASSWORD=null
-REDIS_PORT=6379
-
-MAIL_MAILER=smtp
-MAIL_HOST=mailpit
-MAIL_PORT=1025
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_ENCRYPTION=null
-MAIL_FROM_ADDRESS="hello@example.com"
-MAIL_FROM_NAME="${APP_NAME}"
-
-AWS_ACCESS_KEY_ID=
-AWS_SECRET_ACCESS_KEY=
-AWS_DEFAULT_REGION=us-east-1
-AWS_BUCKET=
-AWS_USE_PATH_STYLE_ENDPOINT=false
-
-PUSHER_APP_ID=
-PUSHER_APP_KEY=
-PUSHER_APP_SECRET=
-PUSHER_HOST=
-PUSHER_PORT=443
-PUSHER_SCHEME=https
-PUSHER_APP_CLUSTER=mt1
-
-VITE_APP_NAME="${APP_NAME}"
-VITE_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
-VITE_PUSHER_HOST="${PUSHER_HOST}"
-VITE_PUSHER_PORT="${PUSHER_PORT}"
-VITE_PUSHER_SCHEME="${PUSHER_SCHEME}"
-VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 ```
 
-### 3. Deploy dan Setup Database
+### 2. **Deploy dari GitHub**
 
-Setelah environment variables diset, deploy ulang aplikasi Anda. Railway akan otomatis menjalankan:
+1. Push code ke GitHub
+2. Railway akan otomatis deploy
+3. Script `railway-start.sh` akan jalan otomatis
+4. Setup database akan jalan otomatis jika belum ada tables
 
-1. `composer install`
-2. `npm install`
-3. `npm run build`
-4. `php artisan key:generate`
-5. `php artisan migrate --force`
-6. `php artisan db:seed --force`
+### 3. **Manual Setup (Jika Perlu)**
 
-### 4. Troubleshooting
-
-Jika masih error 500, cek logs di Railway dashboard:
-
-1. Buka project di Railway
-2. Klik tab "Deployments"
-3. Klik deployment terbaru
-4. Lihat logs untuk error details
-
-### 5. Manual Database Setup
-
-Jika otomatis tidak berhasil, jalankan manual di Railway terminal:
+Jika otomatis setup gagal, jalankan manual:
 
 ```bash
-# Masuk ke Railway terminal
+# Di Railway terminal
 railway shell
 
-# Jalankan setup database
-php setup-database.php
+# Setup environment
+php setup-env.php
 
-# Atau manual commands
-php artisan migrate --force
-php artisan db:seed --force
+# Setup database
+php setup-database-railway.php
+
+# Check deployment
+php check-deployment.php
 ```
 
-### 6. Cek Database Connection
+## 🔍 Troubleshooting
 
-Untuk memastikan database terhubung, cek di Railway terminal:
+### Error 500
+1. Cek environment variables: `php check-env-railway.php`
+2. Cek database connection: `php test-db-connection.php`
+3. Cek deployment status: `php check-deployment.php`
 
-```bash
-php artisan tinker
-```
+### APP_KEY Error
+1. Jalankan: `php generate-app-key.php`
+2. Copy APP_KEY yang dihasilkan
+3. Set di Railway Variables
 
-Lalu test:
+### Database Connection Error
+1. Pastikan MySQL service running
+2. Cek credentials di Railway dashboard
+3. Test connection: `php test-db-connection.php`
 
-```php
-DB::connection()->getPdo();
-```
+## 📁 Files yang Penting
 
-Jika berhasil, akan menampilkan PDO object.
+- `railway-start.sh` - Script start otomatis
+- `railway.json` - Railway configuration
+- `setup-database-railway.php` - Database setup
+- `check-deployment.php` - Deployment checker
+- `test-db-connection.php` - Database tester
 
-### 7. Common Issues
+## 🎯 Auto-Deploy Flow
 
-1. **Error 500**: Biasanya karena database belum di-migrate
-2. **Connection refused**: Environment variables database salah
-3. **Table not found**: Migrasi belum dijalankan
-4. **Permission denied**: File permissions di storage/cache
+1. **Push ke GitHub** → Railway detect changes
+2. **Build** → Install dependencies, build assets
+3. **Deploy** → Run `railway-start.sh`
+4. **Auto Setup** → Check database, run migrations, seed data
+5. **Start App** → Laravel server running
 
-### 8. Test Aplikasi
+## 🔗 Links
 
-Setelah deployment berhasil, test endpoint:
+- **App URL**: https://webtoup-production.up.railway.app
+- **Railway Dashboard**: https://railway.app/dashboard
+- **GitHub**: Your repository URL
 
--   `https://your-app.railway.app/` - Homepage
--   `https://your-app.railway.app/login` - Login page
+## 📞 Support
 
-Jika masih error, cek logs di Railway dashboard untuk detail error.
+Jika ada masalah:
+1. Cek Railway logs
+2. Run diagnostic scripts
+3. Check environment variables
+4. Verify database connection
