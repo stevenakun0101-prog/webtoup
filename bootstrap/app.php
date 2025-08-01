@@ -16,6 +16,13 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
+        // Force HTTPS in production
+        if (app()->environment('production')) {
+            $middleware->web(prepend: [
+                \App\Http\Middleware\ForceHttps::class,
+            ]);
+        }
+
         // Disable CSRF protection for specific routes
         $middleware->validateCsrfTokens(except: [
             'ml/*',
