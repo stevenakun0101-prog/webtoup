@@ -47,8 +47,9 @@ Setelah environment variables diset:
     - `npm install`
     - `npm run build`
     - `php artisan key:generate`
-    - `php artisan migrate --force`
-    - `php artisan db:seed --force`
+3. **Setup database manual setelah deployment:**
+    - Masuk ke Railway terminal
+    - Jalankan `php setup-database-railway.php`
 
 ### 3. Test Database Connection
 
@@ -67,7 +68,7 @@ php check-deployment.php
 
 ```bash
 # Setup database manual dengan data lengkap
-php setup-complete-database.php
+php setup-database-railway.php
 
 # Atau commands terpisah
 php artisan migrate --force
@@ -106,7 +107,7 @@ php monitor-deployment.php
 
 3. **Setup database manual:**
     ```bash
-    php setup-complete-database.php
+    php setup-database-railway.php
     ```
 
 ### Error 404 - Deployment Issues
@@ -161,7 +162,7 @@ php check-deployment.php
 -   ✅ `test-app.php` - Test aplikasi
 -   ✅ `monitor-deployment.php` - Monitor deployment real-time
 -   ✅ `check-deployment.php` - Cek status deployment
--   ✅ `setup-complete-database.php` - Setup database dengan data lengkap
+-   ✅ `setup-database-railway.php` - Setup database dengan data lengkap
 -   ✅ `railway-post-deploy.sh` - Script post-deploy otomatis
 -   ✅ `railway-deploy.sh` - Script deployment lengkap
 
@@ -169,7 +170,7 @@ php check-deployment.php
 
 ### 1. Error 500 - Database
 
-**Solution**: Setup database dengan `php setup-complete-database.php`
+**Solution**: Setup database dengan `php setup-database-railway.php`
 
 ### 2. Connection Refused
 
