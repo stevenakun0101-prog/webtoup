@@ -1,0 +1,2 @@
+# This file ensures the public/storage directory is tracked by git
+# Railway needs this directory to be present for file uploads 
