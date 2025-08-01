@@ -72,6 +72,10 @@ php setup-complete-database.php
 # Atau commands terpisah
 php artisan migrate --force
 php artisan db:seed --force
+
+# Atau jalankan script post-deploy
+chmod +x railway-post-deploy.sh
+./railway-post-deploy.sh
 ```
 
 ### 5. Test Aplikasi
@@ -158,6 +162,7 @@ php check-deployment.php
 -   ✅ `monitor-deployment.php` - Monitor deployment real-time
 -   ✅ `check-deployment.php` - Cek status deployment
 -   ✅ `setup-complete-database.php` - Setup database dengan data lengkap
+-   ✅ `railway-post-deploy.sh` - Script post-deploy otomatis
 -   ✅ `railway-deploy.sh` - Script deployment lengkap
 
 ## 🚨 Common Issues & Solutions
