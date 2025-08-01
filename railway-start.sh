@@ -9,6 +9,13 @@ sleep 5
 # Check if we need to run setup
 echo "🔍 Checking if setup is needed..."
 
+# Generate APP_KEY if not set
+if [ -z "$APP_KEY" ]; then
+    echo "🔑 Generating application key..."
+    export APP_KEY=$(php artisan key:generate --show)
+    echo "Generated APP_KEY: $APP_KEY"
+fi
+
 # Check if database has tables
 if php -r "
 try {
