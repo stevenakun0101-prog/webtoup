@@ -15,7 +15,7 @@ Buka Railway dashboard → Project Anda → Variables tab, lalu set:
 ```env
 APP_NAME="Web Topup"
 APP_ENV=production
-APP_DEBUG=false
+APP_DEBUG=true
 APP_URL=https://webtoup-production.up.railway.app
 
 DB_CONNECTION=mysql
